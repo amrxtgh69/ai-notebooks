@@ -17,7 +17,14 @@ fn dfs(
     color[start] = Color::Gray;
     for &neighbour_node in &graph[start] {
         if color[neighbour_node] == Color::White {
-            dfs(neighbour_node, graph, color, time, discovery_time, finished_time);
+            dfs(
+                neighbour_node,
+                graph,
+                color,
+                time,
+                discovery_time,
+                finished_time,
+            );
         }
     }
     color[start] = Color::Black;
@@ -35,8 +42,18 @@ fn main() {
 
     let start = 0;
 
-    dfs(start, &graph, &mut color, &mut time, &mut discovery_time, &mut finished_time);
+    dfs(
+        start,
+        &graph,
+        &mut color,
+        &mut time,
+        &mut discovery_time,
+        &mut finished_time,
+    );
 
+    for (i, neighbours) in graph.iter().enumerate() {
+        println!("{} -> {:?}", i, neighbours);
+    }
     println!("Node -> Discovery Time / Finishing Time:");
     for i in 0..n {
         println!("Node {} -> {} / {}", i, discovery_time[i], finished_time[i]);
