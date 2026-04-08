@@ -51,6 +51,7 @@ fn main() {
         &mut finished_time,
     );
 
+    println!("Adjacency List");
     for (i, neighbours) in graph.iter().enumerate() {
         println!("{} -> {:?}", i, neighbours);
     }
