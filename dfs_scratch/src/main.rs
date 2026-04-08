@@ -9,36 +9,36 @@ fn dfs(
     graph: &Vec<Vec<usize>>,
     color: &mut Vec<Color>,
     time: &mut i32,
-    d: &mut Vec<i32>,
-    r: &mut Vec<i32>,
+    discovery_time: &mut Vec<i32>,
+    finished_time: &mut Vec<i32>,
 ) {
     *time += 1;
-    d[start] = *time;
+    discovery_time[start] = *time;
     color[start] = Color::Gray;
     for &neighbour_node in &graph[start] {
         if color[neighbour_node] == Color::White {
-            dfs(neighbour_node, graph, color, time, d, r);
+            dfs(neighbour_node, graph, color, time, discovery_time, finished_time);
         }
     }
     color[start] = Color::Black;
     *time += 1;
-    r[start] = *time;
+    finished_time[start] = *time;
 }
 
 fn main() {
     let graph: Vec<Vec<usize>> = vec![vec![1, 2], vec![2], vec![3], vec![1]];
     let n = graph.len();
     let mut color = vec![Color::White; n];
-    let mut d = vec![0; n];
-    let mut r = vec![0; n];
+    let mut discovery_time = vec![0; n];
+    let mut finished_time = vec![0; n];
     let mut time = 0;
 
     let start = 0;
 
-    dfs(start, &graph, &mut color, &mut time, &mut d, &mut r);
+    dfs(start, &graph, &mut color, &mut time, &mut discovery_time, &mut finished_time);
 
     println!("Node -> Discovery Time / Finishing Time:");
     for i in 0..n {
-        println!("Node {} -> {} / {}", i, d[i], r[i]);
+        println!("Node {} -> {} / {}", i, discovery_time[i], finished_time[i]);
     }
 }
