@@ -7,8 +7,7 @@ enum Color {
 
 fn dfs(start: usize, graph: &Vec<Vec<usize>>, color: &mut Vec<Color>) {
     color[start] = Color::Gray;
-    let neighbors = graph[start].clone();
-    for &neighbour_node in &neighbors {
+    for &neighbour_node in &graph[start].clone() {
         if color[neighbour_node] == Color::White {
             dfs(neighbour_node, graph, color);
         }
