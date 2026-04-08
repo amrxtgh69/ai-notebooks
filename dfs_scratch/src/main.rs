@@ -4,7 +4,6 @@ enum Color {
     Gray,
     Black,
 }
-
 fn dfs(
     start: usize,
     graph: &Vec<Vec<usize>>,
@@ -16,7 +15,7 @@ fn dfs(
     *time += 1;
     d[start] = *time;
     color[start] = Color::Gray;
-    for &neighbour_node in &graph[start].clone() {
+    for &neighbour_node in &graph[start] {
         if color[neighbour_node] == Color::White {
             dfs(neighbour_node, graph, color, time, d, r);
         }
