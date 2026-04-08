@@ -28,6 +28,7 @@ fn bfs(graph: &Vec<Vec<usize>>, start: usize) -> (Vec<usize>, Vec<Option<usize>>
     // White indicates that the vertex has not been discovered yet!!
     // Grey indicates that the vertex has been discoverd but the neighbour is not explored
     // Black means vertex and the neighbours are fully explored
+
     let mut color = vec!["white"; v];
     let mut distance = vec![usize::MAX; v];
     let mut parent = vec![None; v];
