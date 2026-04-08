@@ -1,28 +1,31 @@
-use std::collections::HashMap;
-
+#[derive(Clone, PartialEq, Debug)]
 enum Color {
     White,
     Gray,
     Black,
 }
 
+fn dfs(start: usize, graph: &Vec<Vec<usize>>, color: &mut Vec<Color>) {
+    color[start] = Color::Gray;
+    let neighbors = graph[start].clone();
+    for &neighbour_node in &neighbors {
+        if color[neighbour_node] == Color::White {
+            dfs(neighbour_node, graph, color);
+        }
+    }
+    color[start] = Color::Black;
+}
+
 fn main() {
-    let mut graph: HashMap<usize, Vec<usize>> = HashMap::new();
-    graph.insert(0, vec![1, 2]);
-    graph.insert(1, vec![2]);
-    graph.insert(2, vec![0, 3]);
-    graph.insert(3, vec![3]);
+    let graph: Vec<Vec<usize>> = vec![vec![1, 2], vec![2], vec![3], vec![1]];
+    let n = graph.len();
+    let start = 0;
+    let mut color = vec![Color::White; n];
 
-    let mut keys: Vec<_> = graph.keys().collect();
-    keys.sort();
+    dfs(start, &graph, &mut color);
 
-    for node in keys {
-        let neighbors = &graph[node];
-        let neighbors_str = neighbors
-            .iter()
-            .map(|n| n.to_string())
-            .collect::<Vec<_>>()
-            .join(", ");
-        println!("{} -> {}", node, neighbors_str);
+    println!("Final colors:");
+    for i in 0..n {
+        println!("Node {} -> {:?}", i, color[i]);
     }
 }
