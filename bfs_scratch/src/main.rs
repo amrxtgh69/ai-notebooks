@@ -25,6 +25,9 @@ impl<T> Queue<T> {
 
 fn bfs(graph: &Vec<Vec<usize>>, start: usize) -> (Vec<usize>, Vec<Option<usize>>) {
     let v = graph.len();
+    // the white indicates that the vertex has not been discovered yet!!
+    // grey indicates that the vertex has been discoverd but the neighbour is not explored
+    // black means vertex and the neighbours are fully explored
     let mut color = vec!["white"; v];
     let mut distance = vec![usize::MAX; v];
     let mut parent = vec![None; v];
