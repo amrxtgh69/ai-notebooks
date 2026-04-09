@@ -39,22 +39,23 @@ fn ucs_search(graph: &Graph, start: Node, goal: Node) -> Option<(Cost, Vec<Node>
         if node == goal {
             return Some((cost, path));
         }
+        if let Some(&best_cost) = visited.get(&node) {
+            if cost > best_cost {
+                continue;
+            }
+        }
+        visited.insert(node, cost);
 
         if let Some(neighbour) = graph.get(node) {
             for edge in neighbour {
-                let next_node = edge.node;
                 let next_cost = cost + edge.cost;
-
                 let mut next_path = path.clone();
-                next_path.push(next_node);
-                
-                if let Some(&c) = visited.get(node) {
-                    if c < next_cost
-                }
+                next_path.push(edge.node);
+                heap.push(State { cost: next_cost, node: edge.node, path: next_path });
             }
         }
-        
     }
+    None
 }
 
 fn main() {
