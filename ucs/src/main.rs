@@ -1,12 +1,10 @@
+// implementation of uniform cost search
 use std::{cmp::Ordering, collections::{BinaryHeap, HashMap}};
 
 type Node = &'static str;
 type Cost = i32;
 
-struct Edge {
-    node: Node,
-    cost: Cost,
-}
+struct Edge { node: Node, cost: Cost, }
 type Graph = HashMap<Node, Edge>;
 
 struct State {
@@ -28,7 +26,7 @@ impl PartialOrd for State {
     }
 }
 
-fn ucs_search(graph: Graph, start: Node, goal: Node) -> Option<Cost, Vec<Node>> {
+fn ucs_search(graph: &Graph, start: Node, goal: Node) -> Option<(Cost, Vec<Node>)> {
     let mut heap = BinaryHeap::new();
     let mut visited: HashMap<Node, Cost> = HashMap::new();
 
@@ -37,12 +35,31 @@ fn ucs_search(graph: Graph, start: Node, goal: Node) -> Option<Cost, Vec<Node>> 
         node: start,
         path: vec![start],
     });
+    while let Some(State { cost, node, path }) = heap.pop() {
+        if node == goal {
+            return Some((cost, path));
+        }
 
+        if let Some(neighbour) = graph.get(node) {
+            for edge in neighbour {
+                let next_node = edge.node;
+                let next_cost = cost + edge.cost;
+
+                let mut next_path = path.clone();
+                next_path.push(next_node);
+                
+                if let Some(&c) = visited.get(node) {
+                    if c < next_cost
+                }
+            }
+        }
+        
+    }
 }
 
 fn main() {
     let graph: Graph = HashMap::new();
-    graph.insert("A", vec![ Edge { node: "B", cost: 1 },  Edge { node: "C", cost: 4 } ];
+    graph.insert("A", vec![ Edge { node: "B", cost: 1 },  Edge { node: "C", cost: 4 } ]);
     graph.insert("B", vec![Edge { node: "C", cost: 2 }, Edge { node: "D", cost: 5 }]);
     graph.insert("C", vec![Edge { node: "D", cost: 1 }]);
     graph.insert("D", vec![]);
