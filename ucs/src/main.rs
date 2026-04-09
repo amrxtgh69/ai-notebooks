@@ -50,10 +50,9 @@ fn ucs_search(graph: &Graph, start: Node, goal: Node) -> Option<(Cost, Vec<Node>
         if node == goal {
             return Some((cost, path));
         }
-        if let Some(&best_cost) = visited.get(&node) {
-            if cost > best_cost {
+        if let Some(&best_cost) = visited.get(&node) 
+            && cost > best_cost {
                 continue;
-            }
         }
         visited.insert(node, cost);
 
