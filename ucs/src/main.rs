@@ -1,11 +1,17 @@
 // implementation of uniform cost search
-use std::{cmp::Ordering, collections::{BinaryHeap, HashMap}};
+use std::{
+    cmp::Ordering,
+    collections::{BinaryHeap, HashMap},
+};
 
 type Node = &'static str;
 type Cost = i32;
 
-struct Edge { node: Node, cost: Cost, }
-type Graph = HashMap<Node, Edge>;
+struct Edge {
+    node: Node,
+    cost: Cost,
+}
+type Graph = HashMap<Node, Vec<Edge>>;
 
 struct State {
     cost: Cost,
@@ -21,10 +27,15 @@ impl Ord for State {
 //docs says that if Ord is implemented then PartialOrd should be implemented too.
 impl PartialOrd for State {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        // hmm this is tricky
         Some(self.cmp(other))
     }
 }
+impl PartialEq for State {
+    fn eq(&self, other: &Self) -> bool {
+        self.cost == other.cost
+    }
+}
+impl Eq for State {}
 
 fn ucs_search(graph: &Graph, start: Node, goal: Node) -> Option<(Cost, Vec<Node>)> {
     let mut heap = BinaryHeap::new();
@@ -51,7 +62,11 @@ fn ucs_search(graph: &Graph, start: Node, goal: Node) -> Option<(Cost, Vec<Node>
                 let next_cost = cost + edge.cost;
                 let mut next_path = path.clone();
                 next_path.push(edge.node);
-                heap.push(State { cost: next_cost, node: edge.node, path: next_path });
+                heap.push(State {
+                    cost: next_cost,
+                    node: edge.node,
+                    path: next_path,
+                });
             }
         }
     }
@@ -59,9 +74,21 @@ fn ucs_search(graph: &Graph, start: Node, goal: Node) -> Option<(Cost, Vec<Node>
 }
 
 fn main() {
-    let graph: Graph = HashMap::new();
-    graph.insert("A", vec![ Edge { node: "B", cost: 1 },  Edge { node: "C", cost: 4 } ]);
-    graph.insert("B", vec![Edge { node: "C", cost: 2 }, Edge { node: "D", cost: 5 }]);
+    let mut graph: Graph = HashMap::new();
+    graph.insert(
+        "A",
+        vec![Edge { node: "B", cost: 1 }, Edge { node: "C", cost: 4 }],
+    );
+    graph.insert(
+        "B",
+        vec![Edge { node: "C", cost: 2 }, Edge { node: "D", cost: 5 }],
+    );
     graph.insert("C", vec![Edge { node: "D", cost: 1 }]);
     graph.insert("D", vec![]);
+
+    if let Some((cost, path)) = ucs_search(&graph, "A", "D") {
+        println!("Cost: {}, Path: {:?}", cost, path);
+    } else {
+        println!("No path found");
+    }
 }
