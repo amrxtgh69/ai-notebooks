@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, default};
 
 struct Node {
     heuristic: u32,
@@ -9,6 +9,25 @@ struct Graph {
     adj: HashMap<u32, Vec<(u32, u32)>>,   
 }
 
+#[derive(Eq, PartialEq)]
+struct State {
+    node: u32,
+    heuristic: u32,
+}
+impl Ord for State {
+    fn cmp(&self, other: &Self) -> Ordering {
+        other.heuristic.cmp(&self.heuristic);
+    }
+}
+impl PartialOrd for State {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+fn gbfs(graph: &Graph, start: u32, goal: u32) -> Option<Vec<u32>> {
+
+}
 fn main() {
     let mut nodes = HashMap::new();
     nodes.insert(0, Node { heuristic: 7 });
