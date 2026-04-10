@@ -23,11 +23,12 @@ fn main() {
     let graph = Graph { nodes, adj };
 
     for (id, neighbors) in &graph.adj {
-        let h = graph.nodes[id].heuristic;
-        let formatted: Vec<String> = neighbors
-            .iter()
-            .map(|(to, cost)| format!("{}(cost:{})", to, cost))
-            .collect();
-        println!("Node {}(h={}) -> [{}]", id, h, formatted.join(", "));
+        if let Some(node) = graph.nodes.get(id) {
+            let formatted: Vec<String> = neighbors
+                .iter()
+                .map(|(to, cost)| format!("{}(cost:{})", to, cost))
+                .collect();
+        println!("Node {}(h={}) -> [{}]", id, node.heuristic, formatted.join(", "));
+        }
     }
 }
