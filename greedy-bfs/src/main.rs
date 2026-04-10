@@ -5,8 +5,8 @@ struct Node {
 }
 
 struct Graph {
-    nodes: HashMap<u32, Node>,              // node_id -> node data
-    adj: HashMap<u32, Vec<(u32, u32)>>,    // node_id -> [(neighbor_id, cost)]
+    nodes: HashMap<u32, Node>,             
+    adj: HashMap<u32, Vec<(u32, u32)>>,   
 }
 
 fn main() {
@@ -16,9 +16,9 @@ fn main() {
     nodes.insert(2, Node { heuristic: 1 });
 
     let mut adj = HashMap::new();
-    adj.insert(0, vec![(1, 2), (2, 5)]);   // 0 -> 1 (cost 2), 0 -> 2 (cost 5)
-    adj.insert(1, vec![(2, 1)]);            // 1 -> 2 (cost 1)
-    adj.insert(2, vec![]);                  // goal node
+    adj.insert(0, vec![(1, 2), (2, 5)]); 
+    adj.insert(1, vec![(2, 1)]);           
+    adj.insert(2, vec![]);                
 
     let graph = Graph { nodes, adj };
 
