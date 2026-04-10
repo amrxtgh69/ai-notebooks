@@ -1,4 +1,4 @@
-use std::{collections::HashMap, default};
+use std::{collections::{BinaryHeap, HashMap}, default, fmt::Binary};
 
 struct Node {
     heuristic: u32,
@@ -26,6 +26,14 @@ impl PartialOrd for State {
 }
 
 fn gbfs(graph: &Graph, start: u32, goal: u32) -> Option<Vec<u32>> {
+    let heap = BinaryHeap::new();
+
+    heap.push(State {
+        node: start,
+        heuristic: graph.nodes.get(&start)?.heuristic,
+    });
+
+
 
 }
 fn main() {
