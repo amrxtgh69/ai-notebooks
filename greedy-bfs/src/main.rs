@@ -1,24 +1,20 @@
 use std::collections::HashMap;
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 
-struct Node {
-    name: String,
-    heuristic: f64,
-}
+type Node = usize;
 
 struct Edge {
     node: Node,
-    cost: f64,
+    cost: i32,
 }
-
+struct NodeData {
+    name: String,
+    heuristic: i32,
+}
 struct Graph {
+    nodes: Vec<NodeData>,
     adj: HashMap<Node, Vec<Edge>>,
 }
 
-let mut graph: HashMap<Node, Vec<Edge>> = HashMap::new();
-
-
 fn main() {
-
 }
