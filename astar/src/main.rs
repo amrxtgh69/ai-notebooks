@@ -4,5 +4,10 @@ use std::collections::HashMap;
 
 type Graph<V, E> = HashMap<V, Vec<(V, E)>>;
 
+struct State<V, E> {
+    f: E,
+    vertex: V,
+}
+
 fn main() {
 }
