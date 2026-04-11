@@ -19,4 +19,10 @@ impl<V, E: Ord> PartialOrd for State<V, E> {
         Some(self.cmp(other))
     }
 }
+
+fn astar<V, E>(
+    graph: Graph<V, E>,
+    start: V,
+    goal: V,
+)
 fn main() {}
