@@ -1,14 +1,13 @@
-use std::{collections::{BinaryHeap, HashMap}, default, fmt::Binary};
+use std::{collections::{BinaryHeap, HashMap}};
+use std::cmp::Ordering;
 
 struct Node {
     heuristic: u32,
 }
-
 struct Graph {
     nodes: HashMap<u32, Node>,             
     adj: HashMap<u32, Vec<(u32, u32)>>,   
 }
-
 #[derive(Eq, PartialEq)]
 struct State {
     node: u32,
@@ -16,7 +15,7 @@ struct State {
 }
 impl Ord for State {
     fn cmp(&self, other: &Self) -> Ordering {
-        other.heuristic.cmp(&self.heuristic);
+        other.heuristic.cmp(&self.heuristic)
     }
 }
 impl PartialOrd for State {
@@ -26,15 +25,18 @@ impl PartialOrd for State {
 }
 
 fn gbfs(graph: &Graph, start: u32, goal: u32) -> Option<Vec<u32>> {
-    let heap = BinaryHeap::new();
+    let mut heap = BinaryHeap::new();
 
     heap.push(State {
         node: start,
         heuristic: graph.nodes.get(&start)?.heuristic,
     });
-
-
-
+    while let Some(State { node, .. }) = heap.pop() {
+        if node == goal {
+            return Some(vec![node]);
+        }
+    }
+    None
 }
 fn main() {
     let mut nodes = HashMap::new();
