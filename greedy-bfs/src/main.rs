@@ -90,5 +90,7 @@ fn main() {
             graph.get_heuristic(v).unwrap_or(0)
         );
     }
-    graph.gbfs(0, 4);
+    if let Some(path) = graph.gbfs(0, 4) {
+        println!("Path: {:?}", path);
+    }
 }
