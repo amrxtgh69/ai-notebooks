@@ -32,9 +32,10 @@ impl Graph {
         &self.adjacency_list[u]
     }
 
-    fn gbfs(&self, start: usize, goal: usize) -> Option<Vec<usize>>{
+    fn gbfs(&self, start: usize, goal: usize) -> Option<Vec<usize>> {
         let mut visited = vec![false; self.adjacency_list.len()];
         let mut heap = BinaryHeap::new();
+        let mut parent = vec![None; self.adjacency_list.len()];
 
         heap.push(Reverse((self.get_heuristic(start).unwrap_or(0), start)));
 
@@ -48,15 +49,24 @@ impl Graph {
 
             if node == goal {
                 println!("Reached goal");
-                return;
+                let mut path = vec![];
+                let mut curr = Some(node);
+                while let Some(n) = curr {
+                    path.push(n);
+                    curr = parent[n];
+                }
+                path.reverse();
+                return Some(path);
             }
             for &nbr in self.neighbours(node) {
                 if !visited[nbr] {
+                    parent[nbr] = Some(node);
                     heap.push(Reverse((self.get_heuristic(nbr).unwrap_or(0), nbr)));
                 }
             }
         }
         println!("Goal not reachable");
+        None
     }
 }
 fn main() {
