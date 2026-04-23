@@ -32,7 +32,7 @@ impl Graph {
         &self.adjacency_list[u]
     }
 
-    fn gbfs(&self, start: usize, goal: usize) {
+    fn gbfs(&self, start: usize, goal: usize) -> Option<Vec<usize>>{
         let mut visited = vec![false; self.adjacency_list.len()];
         let mut heap = BinaryHeap::new();
 
@@ -80,4 +80,5 @@ fn main() {
             graph.get_heuristic(v).unwrap_or(0)
         );
     }
+    graph.gbfs(0, 4);
 }
