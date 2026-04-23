@@ -13,6 +13,7 @@ struct Edge {
 }
 type Graph = HashMap<Node, Vec<Edge>>;
 
+#[derive(Eq, PartialEq)]
 struct State {
     cost: Cost,
     node: Node,
@@ -30,12 +31,12 @@ impl PartialOrd for State {
         Some(self.cmp(other))
     }
 }
-impl PartialEq for State {
-    fn eq(&self, other: &Self) -> bool {
-        self.cost == other.cost
-    }
-}
-impl Eq for State {}
+//impl PartialEq for State {
+//    fn eq(&self, other: &Self) -> bool {
+//        self.cost == other.cost
+//    }
+//}
+//impl Eq for State {}
 
 fn ucs_search(graph: &Graph, start: Node, goal: Node) -> Option<(Cost, Vec<Node>)> {
     let mut heap = BinaryHeap::new();
