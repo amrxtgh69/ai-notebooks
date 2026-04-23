@@ -1,4 +1,7 @@
-use std::collections::HashMap;
+use std::{
+    cmp::Reverse,
+    collections::{BinaryHeap, HashMap},
+};
 
 struct Graph {
     adjacency_list: Vec<Vec<usize>>,
@@ -27,6 +30,33 @@ impl Graph {
 
     fn neighbours(&self, u: usize) -> &Vec<usize> {
         &self.adjacency_list[u]
+    }
+
+    fn gbfs(&self, start: usize, goal: usize) {
+        let mut visited = vec![false; self.adjacency_list.len()];
+        let mut heap = BinaryHeap::new();
+
+        heap.push(Reverse((self.get_heuristic(start).unwrap_or(0), start)));
+
+        while let Some(entry) = heap.pop() {
+            let Reverse((_heuristic, node)) = entry;
+            if visited[node] {
+                continue;
+            }
+            println!("Visiting : {}", node);
+            visited[node] = true;
+
+            if node == goal {
+                println!("Reached goal");
+                return;
+            }
+            for &nbr in self.neighbours(node) {
+                if !visited[nbr] {
+                    heap.push(Reverse((self.get_heuristic(nbr).unwrap_or(0), nbr)));
+                }
+            }
+        }
+        println!("Goal not reachable");
     }
 }
 fn main() {
