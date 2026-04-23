@@ -1,63 +1,53 @@
-use std::{collections::{BinaryHeap, HashMap}};
-use std::cmp::Ordering;
+use std::collections::HashMap;
 
-struct Node {
-    heuristic: u32,
-}
 struct Graph {
-    nodes: HashMap<u32, Node>,             
-    adj: HashMap<u32, Vec<(u32, u32)>>,   
-}
-#[derive(Eq, PartialEq)]
-struct State {
-    node: u32,
-    heuristic: u32,
-}
-impl Ord for State {
-    fn cmp(&self, other: &Self) -> Ordering {
-        other.heuristic.cmp(&self.heuristic)
-    }
-}
-impl PartialOrd for State {
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        Some(self.cmp(other))
-    }
+    adjacency_list: Vec<Vec<usize>>,
+    heuristic: HashMap<usize, u32>,
 }
 
-fn gbfs(graph: &Graph, start: u32, goal: u32) -> Option<Vec<u32>> {
-    let mut heap = BinaryHeap::new();
-
-    heap.push(State {
-        node: start,
-        heuristic: graph.nodes.get(&start)?.heuristic,
-    });
-    while let Some(State { node, .. }) = heap.pop() {
-        if node == goal {
-            return Some(vec![node]);
+impl Graph {
+    fn new(size: usize) -> Self {
+        Graph {
+            adjacency_list: vec![Vec::new(); size],
+            heuristic: HashMap::new(),
         }
     }
-    None
+
+    fn add_edge(&mut self, u: usize, v: usize) {
+        self.adjacency_list[u].push(v);
+    }
+
+    fn add_heuristic(&mut self, node: usize, h: u32) {
+        self.heuristic.insert(node, h);
+    }
+
+    fn get_heuristic(&self, node: usize) -> Option<u32> {
+        self.heuristic.get(&node).copied()
+    }
+
+    fn neighbours(&self, u: usize) -> &Vec<usize> {
+        &self.adjacency_list[u]
+    }
 }
 fn main() {
-    let mut nodes = HashMap::new();
-    nodes.insert(0, Node { heuristic: 7 });
-    nodes.insert(1, Node { heuristic: 3 });
-    nodes.insert(2, Node { heuristic: 1 });
+    let mut graph = Graph::new(5);
+    graph.add_edge(0, 1);
+    graph.add_edge(0, 2);
+    graph.add_edge(1, 3);
+    graph.add_edge(1, 4);
 
-    let mut adj = HashMap::new();
-    adj.insert(0, vec![(1, 2), (2, 5)]); 
-    adj.insert(1, vec![(2, 1)]);           
-    adj.insert(2, vec![]);                
+    graph.add_heuristic(0, 5);
+    graph.add_heuristic(1, 3);
+    graph.add_heuristic(2, 4);
+    graph.add_heuristic(3, 1);
+    graph.add_heuristic(4, 0);
 
-    let graph = Graph { nodes, adj };
-
-    for (id, neighbors) in &graph.adj {
-        if let Some(node) = graph.nodes.get(id) {
-            let formatted: Vec<String> = neighbors
-                .iter()
-                .map(|(to, cost)| format!("{}(cost:{})", to, cost))
-                .collect();
-        println!("Node {}(h={}) -> [{}]", id, node.heuristic, formatted.join(", "));
-        }
+    for v in 0..5 {
+        println!("Neighbors of vertex {}: {:?}", v, graph.neighbours(v));
+        println!(
+            "Heuristic of vertex {}: {}",
+            v,
+            graph.get_heuristic(v).unwrap_or(0)
+        );
     }
 }
