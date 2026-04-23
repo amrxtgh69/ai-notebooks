@@ -86,7 +86,7 @@ fn main() {
     graph.insert("C", vec![Edge { node: "D", cost: 1 }]);
     graph.insert("D", vec![]);
 
-    if let Some((cost, path)) = ucs_search(&graph, "A", "D") {
+    if let Some((cost, path)) = ucs_search(&graph, "A", "C") {
         println!("Cost: {}, Path: {:?}", cost, path);
     } else {
         println!("No path found");
