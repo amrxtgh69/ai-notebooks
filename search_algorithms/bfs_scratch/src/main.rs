@@ -61,6 +61,7 @@ fn main() {
         vec![1],
         vec![1],
         vec![2],
+
     ];
 
     println!("Graph adjacency list:");
