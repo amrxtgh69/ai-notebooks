@@ -1,18 +1,18 @@
-// In supervised learning we have dataset (X, y)
-// where:
-// X = feature vectors (x1, x2, x3, ...)
-// y = labels (output classes)
-//
-// Example:
-// label = [0, 1, 1, 0, 1]
-// where label[i] is the class of i-th sample
-//
-// `indices` represents a subset of rows in the dataset
-// (used to define the current node in the decision tree)
-//
-// This function computes the Gini impurity of that subset:
-// It measures how mixed the class labels are in that node,
-// not classification correctness.
+/// In supervised learning we have dataset (X, y)
+/// where:
+/// X = feature vectors (x1, x2, x3, ...)
+/// y = labels (output classes)
+///
+/// Example:
+/// label = [0, 1, 1, 0, 1]
+/// where label[i] is the class of i-th sample
+///
+/// `indices` represents a subset of rows in the dataset
+/// (used to define the current node in the decision tree)
+///
+/// This function computes the Gini impurity of that subset:
+/// It measures how mixed the class labels are in that node,
+/// not classification correctness.
 pub fn impurity(label: &[usize], indices: &[usize]) -> f64 {
     let mut counts = Vec::new();
 
