@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 // In supervised learning we have dataset (X, y)
 // where:
 // X = feature vectors (x1, x2, x3, ...)
@@ -15,22 +13,25 @@ use std::collections::HashMap;
 // This function computes the Gini impurity of that subset:
 // It measures how mixed the class labels are in that node,
 // not classification correctness.
-pub fn gini_impurity(label: &[usize], indices: &[usize]) -> f64 {
-    let mut counts: HashMap<usize, usize>= HashMap::new();
+pub fn impurity(label: &[usize], indices: &[usize]) -> f64 {
+    let mut counts = Vec::new();
 
     // creating the frequency table
     for &i in indices {
         let class = label[i];
-        *counts.entry(class).or_insert(0) += 1;
+        if class >= counts.len() {
+            counts.resize(class + 1,0);
+        }
+        counts[class] += 1;
     }
+    if indices.len() <= 1 { return 0.0; }
     let total = indices.len() as f64;
-    if total <= 1.0 { return 0.0 }
 
-    let mut sum_prob: f64 = 0.0;
+    let mut sum_squares: f64 = 0.0;
     
-    for &count in counts.values() {
+    for &count in counts.iter() {
         let p = count as f64 / total as f64;
-        sum_prob += p * p;
+        sum_squares += p * p;
     }
-    1.0 - sum_prob
+    1.0 - sum_squares
 }
