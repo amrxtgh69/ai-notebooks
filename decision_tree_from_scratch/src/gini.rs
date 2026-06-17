@@ -1,3 +1,4 @@
+/// ~amrxtgh: decision tree implementation
 /// In supervised learning we have dataset (X, y)
 /// where:
 /// X = feature vectors (x1, x2, x3, ...)

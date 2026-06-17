@@ -1,3 +1,4 @@
+mod dataset;
 mod gini;
 
 #[derive(Debug)]
