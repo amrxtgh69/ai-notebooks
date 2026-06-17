@@ -1,3 +1,4 @@
+mod split;
 mod dataset;
 mod gini;
 
