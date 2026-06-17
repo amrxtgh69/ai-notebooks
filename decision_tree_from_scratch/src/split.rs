@@ -1,6 +1,6 @@
 use crate::gini::impurity;
 
-/// ~amrxtgh
+/// ==================================    ~amrxtgh     ===============================
 /// Finds the best split threshold for ONE feature at the current node
 /// using the CART algorithm (Classification And Regression Tree).
 ///
@@ -48,7 +48,7 @@ use crate::gini::impurity;
 /// Returns None when:
 /// - all values for the feature are identical
 /// - no valid split exists
-fn best_split_for_feature(
+pub fn best_split_for_feature(
     data: &[Vec<f64>],
     labels: &[usize],
     indices: &[usize],
@@ -76,7 +76,7 @@ fn best_split_for_feature(
 
         if current == next { continue; }
         
-        let threshold = current+next / 2.0;
+        let threshold: f64 = current+next / 2.0;
         
         let mut left = Vec::new();
         let mut right = Vec::new();
@@ -104,5 +104,15 @@ fn best_split_for_feature(
     best_threshold.map(|t| (t, best_gini))
 }
 
+
+pub struct Split {
+    pub feature: usize,
+    pub threshold: f64,
+    pub gini: f64,
+}
+
+pub fn best_split(data: &[Vec<f64>], labels: &[usize], indices: &[usize]) -> Option<Split> {
+    for feature in 
+}
 
 
