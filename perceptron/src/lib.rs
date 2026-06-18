@@ -38,7 +38,7 @@ impl Perceptron {
         }
     }
 
-    pub fn fit(&mut self, data: &[(&[f64], i32)], epochs: usize) {
+    pub fn fit(&mut self, data: &[(Vec<f64>, i32)], epochs: usize) {
         for _ in 0..epochs {
             for (inputs, target) in data {
                 self.train(inputs, *target);
