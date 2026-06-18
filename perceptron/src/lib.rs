@@ -56,6 +56,15 @@ pub fn and_data() -> Vec<(Vec<f64>, i32)> {
     ]
 }
 
+pub fn xor_data() -> Vec<(Vec<f64>, i32)> {
+    vec![
+        (vec![0.0, 0.0], -1),
+        (vec![0.0, 1.0], 1),
+        (vec![1.0, 0.0], 1),
+        (vec![1.0, 1.0], -1),
+    ]
+}
+
 pub fn or_data() -> Vec<(Vec<f64>, i32)> {
     vec![
         (vec![0.0, 0.0], -1),
