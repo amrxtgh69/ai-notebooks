@@ -1,5 +1,7 @@
+pub type Sample = (Vec<f64>, i32);
+
 pub struct Perceptron {
-    weight: Vec<f64>,
+    weights: Vec<f64>,
     bias: f64,
     lr: f64,
 }
@@ -7,20 +9,20 @@ pub struct Perceptron {
 impl Perceptron {
     pub fn new(n_features: usize, lr: f64) -> Self {
         Self {
-            weight: vec![0.0; n_features],
+            weights: vec![0.0; n_features],
             bias: 0.0,
             lr,
         }
     }
 
     pub fn predict(&self, inputs: &[f64]) -> i32 {
-        let sum: f64 = inputs
+        let weighted_sum: f64 = inputs
             .iter()
-            .zip(&self.weight)
+            .zip(&self.weights)
             .map(|(x, w)| x * w)
             .sum::<f64>()
             + self.bias;
-        if sum >= 0.0 {
+        if weighted_sum >= 0.0 {
             1
         } else {
             -1
@@ -31,7 +33,7 @@ impl Perceptron {
         let pred = self.predict(inputs);
         let error = target - pred;
         if error != 0 {
-            for (w, x) in self.weight.iter_mut().zip(inputs) {
+            for (w, x) in self.weights.iter_mut().zip(inputs) {
                 *w += self.lr * error as f64 * x;
             }
             self.bias += self.lr * error as f64;
